@@ -1,0 +1,74 @@
+plugins {
+    id("com.github.johnrengelman.shadow") version "7.1.2"
+    id("io.micronaut.application") version "3.7.10"
+    id("com.google.protobuf") version "0.8.18"
+    id("io.micronaut.test-resources") version "3.7.10"
+}
+
+version = "0.1"
+group = "com.qrmenu"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    annotationProcessor("org.projectlombok:lombok")
+    annotationProcessor("io.micronaut.data:micronaut-data-processor")
+    annotationProcessor("io.micronaut.security:micronaut-security-annotations")
+    implementation("io.micronaut:micronaut-jackson-databind")
+    implementation("io.micronaut:micronaut-validation")
+    implementation("io.micronaut.data:micronaut-data-r2dbc")
+    implementation("io.micronaut.graphql:micronaut-graphql")
+    implementation("io.micronaut.grpc:micronaut-grpc-runtime")
+    implementation("io.micronaut.kafka:micronaut-kafka")
+    implementation("io.micronaut.reactor:micronaut-reactor")
+    implementation("io.micronaut.security:micronaut-security")
+    implementation("jakarta.annotation:jakarta.annotation-api")
+    compileOnly("org.projectlombok:lombok")
+    runtimeOnly("ch.qos.logback:logback-classic")
+    runtimeOnly("org.postgresql:r2dbc-postgresql")
+    testResourcesService("org.postgresql:postgresql")
+    testImplementation("io.micronaut:micronaut-http-client")
+
+}
+
+application {
+    mainClass.set("com.qrmenu.Application")
+}
+java {
+    sourceCompatibility = JavaVersion.toVersion("17")
+    targetCompatibility = JavaVersion.toVersion("17")
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs("build/generated/source/proto/main/grpc")
+            srcDirs("build/generated/source/proto/main/java")
+        }
+    }
+}
+
+protobuf {
+    protoc { artifact = "com.google.protobuf:protoc:3.21.12" }
+    plugins {
+        grpc { artifact = "io.grpc:protoc-gen-grpc-java:1.54.0" }
+    }
+    generateProtoTasks {
+        all()*.plugins { grpc {} }
+    }
+}
+micronaut {
+    testRuntime("junit5")
+    processing {
+        incremental(true)
+        annotations("com.qrmenu.*")
+    }
+    testResources {
+        sharedServer = true
+    }
+}
+
+
+

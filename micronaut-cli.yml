@@ -1,0 +1,6 @@
+applicationType: grpc
+defaultPackage: com.qrmenu
+testFramework: junit
+sourceLanguage: java
+buildTool: gradle
+features: [annotation-api, app-name, data, data-r2dbc, gradle, graphql, grpc, jackson-databind, java, java-application, junit, kafka, logback, lombok, micronaut-build, micronaut-validation, postgres, r2dbc, reactor, readme, security, security-annotations, shade, test-resources, yaml]

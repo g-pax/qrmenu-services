@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.qrmenu";
+option java_outer_classname = "QrmenuServices";
+option objc_class_prefix = "HLW";
+
+package com.qrmenu;
+
+service QrmenuServicesService {
+  rpc send (QrmenuServicesRequest) returns (QrmenuServicesReply) {}
+}
+
+message QrmenuServicesRequest {
+  string name = 1;
+}
+
+message QrmenuServicesReply {
+  string message = 1;
+}
